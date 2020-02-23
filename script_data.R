@@ -22,6 +22,9 @@ consumption <- filter(consumption, Date=="2007-02-01"|Date=="2007-02-02")
 consumption[,3:9] <- sapply(consumption[,3:9], as.character)   
 consumption[,3:9] <- sapply(consumption[,3:9], as.numeric)   
 
+consumption <- tbl_df(consumption)
 
-#consumption <- tbl_df(consumption)
+# plot 1
+hist(consumption$Global_active_power, col="red",main="Global Active Power", xlab = "Global Active Power (kilowatts)")
+
 
