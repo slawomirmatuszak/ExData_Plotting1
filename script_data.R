@@ -29,7 +29,8 @@ consumption <- filter(consumption, Date=="2007-02-01"|Date=="2007-02-02")
 consumption[,4:10] <- sapply(consumption[,4:10], as.character)   
 consumption[,4:10] <- sapply(consumption[,4:10], as.numeric)   
 
-consumption <- tbl_df(consumption)
+# this prevents printing weekdays in my native language
+Sys.setlocale("LC_TIME", "English")
 
 # plot 1
 png("plot1.png", width=480, height=480)
