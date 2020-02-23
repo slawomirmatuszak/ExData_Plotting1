@@ -13,18 +13,24 @@ file.remove("./data/power_consumption.zip")
 # load dataset into R
 consumption <- read.csv2("./data/household_power_consumption.txt")
 
+# add a new column (time and date)
+consumption <- unite(consumption, Date_time, Date, Time, sep = " ", remove = FALSE)
+
 #change date format
 consumption$Date <- dmy(consumption$Date)
+consumption$Date_time <- dmy_hms(consumption$Date_time)
 # subset required data
 consumption <- filter(consumption, Date=="2007-02-01"|Date=="2007-02-02")
 
 # Change data format from factor to numeric
-consumption[,3:9] <- sapply(consumption[,3:9], as.character)   
-consumption[,3:9] <- sapply(consumption[,3:9], as.numeric)   
+consumption[,4:10] <- sapply(consumption[,4:10], as.character)   
+consumption[,4:10] <- sapply(consumption[,4:10], as.numeric)   
 
 consumption <- tbl_df(consumption)
 
 # plot 1
 hist(consumption$Global_active_power, col="red",main="Global Active Power", xlab = "Global Active Power (kilowatts)")
 
+# plot 2
+with(consumption, plot(Date_time, Global_active_power, type="l", ylab = "Global Active Power (kilowatts)", xlab = " "))
 
