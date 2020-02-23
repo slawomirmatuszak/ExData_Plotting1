@@ -6,6 +6,9 @@ library(lubridate)
 # download and unzip a dataset
 url <- "https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2Fhousehold_power_consumption.zip"
 path <- getwd()
+if (!file.exists("data")) { 
+  dir.create("data") 
+}
 download.file(url, file.path(path, "data/power_consumption.zip"))
 unzip(zipfile = "./data/power_consumption.zip", exdir = "./data")
 file.remove("./data/power_consumption.zip")
@@ -29,16 +32,22 @@ consumption[,4:10] <- sapply(consumption[,4:10], as.numeric)
 consumption <- tbl_df(consumption)
 
 # plot 1
+png("plot1.png", width=480, height=480)
 hist(consumption$Global_active_power, col="red",main="Global Active Power", xlab = "Global Active Power (kilowatts)")
+dev.off()
 
 # plot 2
+png("plot2.png", width=480, height=480)
 with(consumption, plot(Date_time, Global_active_power, type="l", ylab = "Global Active Power (kilowatts)", xlab = ""))
+dev.off()
 
 # plot 3
+png("plot3.png", width=480, height=480)
 with(consumption, plot(Date_time, Sub_metering_1, type="l", xlab="", ylab="Energy sub metering"))
 lines(consumption$Date_time, consumption$Sub_metering_2,type="l", col= "red")
 lines(consumption$Date_time, consumption$Sub_metering_3,type="l", col= "blue")
 legend(c("topright"), c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"), lty= 1, lwd=2, col = c("black", "red", "blue"))
+dev.off()
 
 # plot 4
 png("plot4.png", width=480, height=480)
@@ -50,3 +59,4 @@ lines(consumption$Date_time, consumption$Sub_metering_2,type="l", col= "red")
 lines(consumption$Date_time, consumption$Sub_metering_3,type="l", col= "blue")
 legend(c("topright"), c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"), lty= 1, lwd=2, col = c("black", "red", "blue"))
 with(consumption, plot(Date_time, Global_reactive_power, type="l", xlab="datetime", ylab="Global_reactive_power"))
+dev.off()
